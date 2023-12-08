@@ -1,9 +1,7 @@
 import { Card } from 'react-bootstrap';
 
-
-function Cards({ veri }) {
-  const { username, email, firstname, lastname, image } = veri
-  console.log(username);
+function Cards({ user }) {
+  const { username, email, firstname, lastname, image } = user
   return (
     <Card className='text-center mx-auto mt-3' style={{ width: '18rem' }}>
       <Card.Img variant="top" src={image} />

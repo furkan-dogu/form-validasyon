@@ -14,7 +14,9 @@ const Forms = () => {
     password: "",
   });
 
-  const [showCards, setShowCards] = useState(false);
+  const [user, setUser] = useState({})
+
+  const [showCard, setShowCard] = useState(false)
 
   const [showPassword, setShowPassword] = useState(false);
 
@@ -50,7 +52,25 @@ const Forms = () => {
   const handleFormSubmit = (e) => {
     e.preventDefault();
 
-    setShowCards(true);
+    setUser({
+      email,
+      username, 
+      firstname,
+      lastname,
+      image,
+      password,
+    });
+
+    setData({
+      email: "",
+      username: "",
+      firstname: "",
+      lastname: "",
+      image: "",
+      password: "",
+    })
+
+    setShowCard(true)
 
     setTimeout(() => {
       setClickButton(false);
@@ -161,9 +181,8 @@ const Forms = () => {
         </Form.Group>
       </Form>
 
-      <div className="d-flex justify-content-center">
-        {showCards && <Cards veri={data} />}
-      </div>
+      {showCard && <Cards user={user}/>}
+
     </Container>
   );
 };
