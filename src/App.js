@@ -1,10 +1,11 @@
-import Forms from "./forms/Forms";
+import { Container } from "react-bootstrap";
+import Forms from "./components/forms/Forms";
 
 function App() {
   return (
-    <div className="">
-      <Forms/>
-    </div>
+    <Container>
+      <Forms />
+    </Container>
   );
 }
 

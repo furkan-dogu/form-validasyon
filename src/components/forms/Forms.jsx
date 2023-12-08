@@ -1,9 +1,8 @@
-
-import { Button, Form } from "react-bootstrap";
+import { Button, Container, Form } from "react-bootstrap";
 import "./form.css";
 import { useState } from "react";
 import InputGroup from "react-bootstrap/InputGroup";
-import Cards from '../card/Cards';
+import Cards from "../card/Cards";
 
 const Forms = () => {
   const [data, setData] = useState({
@@ -19,36 +18,50 @@ const Forms = () => {
 
   const [showPassword, setShowPassword] = useState(false);
 
+  const [kosul, setKosul] = useState(false);
+
+  const [clickButton, setClickButton] = useState(false);
+
   const { username, email, firstname, lastname, image, password } = data;
 
   const handleData = (e) => {
-    setData({...data, [e.target.id]:e.target.value})
-  }
+    setData({ ...data, [e.target.id]: e.target.value });
+  };
 
+  const handleFormStart = () => {
+    if (
+      password.length < 8 ||
+      username.trim().length < 3 ||
+      firstname.trim().length < 3 ||
+      lastname.trim().length < 3
+    ) {
+      setKosul(true);
+    } else {
+      setKosul(false);
+    }
+  };
+
+  const handleStop = () => {
+    setTimeout(() => {
+      setKosul(false);
+    }, 100);
+  };
 
   const handleFormSubmit = (e) => {
-    e.preventDefault()
-
-    if(password.length < 8) {
-        alert("Şifre en az 8 haneli olmalı")
-    }
-
-    const emailParts = email.split("@")
-    const emailPartsDoc = emailParts[1].split(".")
-    if((emailPartsDoc.length > 3) || (emailPartsDoc.length <= 1)) {
-        alert("Lütfen geçerli bir mail adresi yazınız.")
-    }
-
-    if(username.trim().length < 3 || firstname.trim().length < 3 || lastname.trim().length < 3) {
-        alert("isim en az 3 karakter oluşturmalı")
-    }
+    e.preventDefault();
 
     setShowCards(true);
-  }
+
+    setTimeout(() => {
+      setClickButton(false);
+    }, 500);
+
+    setClickButton(true);
+  };
 
   return (
-    <div className="container mt-4 p-5">
-      <Form onSubmit={handleFormSubmit}>
+    <Container className="mt-4 w-75">
+      <Form onSubmit={handleFormSubmit} className="container">
         <Form.Group className="mt-3">
           <Form.Label>Email address</Form.Label>
           <Form.Control
@@ -61,7 +74,7 @@ const Forms = () => {
           />
         </Form.Group>
 
-        <Form.Group  className="mt-3">
+        <Form.Group className="mt-3">
           <Form.Label>Username</Form.Label>
           <Form.Control
             type="text"
@@ -73,7 +86,7 @@ const Forms = () => {
           />
         </Form.Group>
 
-        <Form.Group  className="mt-3">
+        <Form.Group className="mt-3">
           <Form.Label>First Name</Form.Label>
           <Form.Control
             type="text"
@@ -85,7 +98,7 @@ const Forms = () => {
           />
         </Form.Group>
 
-        <Form.Group  className="mt-3">
+        <Form.Group className="mt-3">
           <Form.Label>Last Name</Form.Label>
           <Form.Control
             type="text"
@@ -97,7 +110,7 @@ const Forms = () => {
           />
         </Form.Group>
 
-        <Form.Group  className="mt-3"> 
+        <Form.Group className="mt-3">
           <Form.Label>Image</Form.Label>
           <Form.Control
             type="url"
@@ -122,22 +135,36 @@ const Forms = () => {
               onChange={handleData}
               required
             />
-            <Button variant="outline-secondary" id="button-addon2" onClick={() => setShowPassword(!showPassword)}>
-              Show/Hidden
+            <Button
+              className="w-25 d-flex justify-content-center"
+              variant={showPassword ? "outline-success" : "outline-danger"}
+              id="button-addon2"
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? "Hidden" : "Show"}
             </Button>
           </div>
         </InputGroup>
-        <Button className="mt-3" variant="primary" type="submit">
-          Submit
-        </Button>
+        <Form.Group
+          className="d-flex justify-content-center"
+          onMouseLeave={handleStop}
+        >
+          <Button
+            className={`btn mt-3 ${kosul ? "animate" : ""}`}
+            variant="primary"
+            type="submit"
+            onMouseMove={handleFormStart}
+            disabled={kosul}
+          >
+            {clickButton ? "Loading..." : "Submit"}
+          </Button>
+        </Form.Group>
       </Form>
 
-        <div className="d-flex justify-content-center">
-            {showCards && <Cards veri={data} />}
-        </div>
-      
-      
-    </div>
+      <div className="d-flex justify-content-center">
+        {showCards && <Cards veri={data} />}
+      </div>
+    </Container>
   );
 };
 
