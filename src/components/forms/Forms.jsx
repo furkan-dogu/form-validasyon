@@ -180,9 +180,9 @@ const Forms = () => {
           </Button>
         </Form.Group>
       </Form>
-
-      {showCard && <Cards user={user}/>}
-
+      <div className="d-flex justify-content-center">
+        {showCard && <Cards user={user}/>}
+      </div>
     </Container>
   );
 };
